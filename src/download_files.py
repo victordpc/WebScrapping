@@ -6,6 +6,7 @@ import urllib.request
 import errno
 import concurrent.futures
 
+
 class download_files():
 
     def __init__(self):
@@ -13,9 +14,10 @@ class download_files():
         self.errores = list()
         self._main()
 
-        print('Errores encontrados \n')
-        print(self.errores)
-        print('\n\nFin\n\n')
+        if len(self.errores)>0:
+            print('Errors founded:\n')
+            print(self.errores)
+        print('\n\nThe end for now :3\nA vast world awaits, choose your favorite armour and the sharpest weapon...\n\"There and Back Again\"\nHappy game\n\n')
 
     def _main(self):
         datos = list()
@@ -28,7 +30,7 @@ class download_files():
         with open(self.out_file, 'r') as the_file:
             the_file.readline()
 
-            for line in tqdm(the_file,desc='Read file'):
+            for line in tqdm(the_file, desc='Read file'):
                 total += 1
                 line = line.split(';')
                 ruta_imagen = line[0]
@@ -61,7 +63,7 @@ class download_files():
         # with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
         #     executor.map(download_element, dict_data.items())
 
-    def download_element(self,element):
+    def download_element(self, element):
         try:
             ruta_imagen = element[0]
             url = element[1]
@@ -69,10 +71,9 @@ class download_files():
             if not os.path.exists(ruta_imagen):
                 self.descarga_fichero(ruta_imagen, url)
         except:
-            self.errores.append( element[0])
+            self.errores.append(element[0])
 
-
-    def download_data(self,datos_descarga):
+    def download_data(self, datos_descarga):
         for k, v in tqdm(datos_descarga.items(), desc='Descarga'):
             try:
                 ruta_imagen = k
@@ -83,8 +84,7 @@ class download_files():
             except:
                 self.errores.append(k)
 
-
-    def descarga_fichero(self,ruta_imagen, url):
+    def descarga_fichero(self, ruta_imagen, url):
         img = urllib.request.urlopen(url)
         manf = open(ruta_imagen, "wb")
         tam = 0
@@ -96,8 +96,7 @@ class download_files():
             manf.write(info)
         manf.close()
 
-
-    def create_folder(self,path: str):
+    def create_folder(self, path: str):
         '''
         Create folder.
 

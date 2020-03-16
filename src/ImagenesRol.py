@@ -36,7 +36,7 @@ class scrap_images():
                 text = ';'.join(line)
                 the_file.write(text)
 
-    def procesarPagina(self,url, ruta) -> list:
+    def procesarPagina(self, url, ruta) -> list:
         html = urllib.request.urlopen(self.joinUrl(self.baseUrl, url))
         soup = BeautifulSoup(html.read(), 'html.parser')
 
@@ -48,7 +48,7 @@ class scrap_images():
         if len(content) != 0:
             self.procesarElementos(soup, ruta)
 
-    def procesarColeccion(self,soup, ruta):
+    def procesarColeccion(self, soup, ruta):
         content = soup.findAll("ul", {"class": "thumbnailCategories"})[0]
         content = list(filter(lambda x: x != '\n', content))
 
@@ -58,7 +58,7 @@ class scrap_images():
                 '\n')[0].strip().replace(' ', '_')
             self.procesarPagina(url, os.path.join(ruta, carpeta))
 
-    def procesarElementos(self,soup, ruta):
+    def procesarElementos(self, soup, ruta):
         carpeta_actual = os.path.join(self.destPath, ruta)
         self.create_folder(carpeta_actual)
 
@@ -106,7 +106,7 @@ class scrap_images():
                     url = elemento.a.get("href", None)
                     self.procesarPagina(url, ruta)
 
-    def create_folder(self,path: str):
+    def create_folder(self, path: str):
         '''
         Create folder.
 
@@ -124,7 +124,7 @@ class scrap_images():
             if e.errno != errno.EEXIST:
                 raise
 
-    def joinUrl(self,first, second):
+    def joinUrl(self, first, second):
         resultado = ''
         if first[-1] != '/' and second[0] != '/':
             resultado = first + '/' + second
